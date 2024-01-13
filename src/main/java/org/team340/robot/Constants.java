@@ -79,29 +79,29 @@ public final class Constants {
 
         private static final SwerveModuleConfig FRONT_LEFT = new SwerveModuleConfig()
             .setLabel("Front Left")
-            .useSparkAttachedEncoder(0.0, false)
-            .setPosition(0.3000, 0.3000)
+            .useSparkAttachedEncoder(1.386, false)
+            .setPosition(0.3016, 0.3016)
             .setMoveMotor(RobotMap.FRONT_LEFT_MOVE, true, true)
             .setTurnMotor(RobotMap.FRONT_LEFT_TURN, false, true);
 
         private static final SwerveModuleConfig BACK_LEFT = new SwerveModuleConfig()
             .setLabel("Back Left")
-            .useSparkAttachedEncoder(0.0, false)
-            .setPosition(-0.3000, 0.3000)
+            .useSparkAttachedEncoder(2.676, false)
+            .setPosition(-0.3016, 0.3016)
             .setMoveMotor(RobotMap.BACK_LEFT_MOVE, true, true)
             .setTurnMotor(RobotMap.BACK_LEFT_TURN, false, true);
 
         private static final SwerveModuleConfig BACK_RIGHT = new SwerveModuleConfig()
             .setLabel("Back Right")
-            .useSparkAttachedEncoder(0.0, false)
-            .setPosition(-0.3000, -0.3000)
+            .useSparkAttachedEncoder(1.072, false)
+            .setPosition(-0.3016, -0.3016)
             .setMoveMotor(RobotMap.BACK_RIGHT_MOVE, true, true)
             .setTurnMotor(RobotMap.BACK_RIGHT_TURN, false, true);
 
         private static final SwerveModuleConfig FRONT_RIGHT = new SwerveModuleConfig()
             .setLabel("Front Right")
-            .useSparkAttachedEncoder(0.0, false)
-            .setPosition(0.3000, -0.3000)
+            .useSparkAttachedEncoder(0.413, false)
+            .setPosition(0.3016, -0.3016)
             .setMoveMotor(RobotMap.FRONT_RIGHT_MOVE, true, true)
             .setTurnMotor(RobotMap.FRONT_RIGHT_TURN, false, true);
 
@@ -110,12 +110,12 @@ public final class Constants {
             .setPeriod(PERIOD)
             .setMovePID(0.001, 0.0, 0.0, 0.0)
             .setMoveFF(0.0, 2.84, 0.0)
-            .setTurnPID(0.5, 0.0, 15.0, 0.0)
+            .setTurnPID(0.75, 0.0, 16.0, 0.0)
             .setRampRate(0.03, 0.03)
-            .setPowerProperties(VOLTAGE, 60.0, 30.0)
-            .setMechanicalProperties(6.5, 7.0, 4.0)
-            .setSpeedConstraints(5.0, 10.0, 17.5, 30.0)
-            .setMotorTypes(SwerveMotorType.SPARK_FLEX_BRUSHLESS, SwerveMotorType.SPARK_FLEX_BRUSHLESS)
+            .setPowerProperties(VOLTAGE, 40.0, 30.0)
+            .setMechanicalProperties(7.13, 13.71, 4.0)
+            .setSpeedConstraints(4.05, 7.12, 8.23, 30.35)
+            .setMotorTypes(SwerveMotorType.SPARK_MAX_BRUSHLESS, SwerveMotorType.SPARK_MAX_BRUSHLESS)
             .setDiscretizationLookahead(0.020)
             .setStandardDeviations(0.1, 0.1, 0.1)
             .setFieldSize(FIELD_LENGTH, FIELD_WIDTH)
