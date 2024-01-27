@@ -2,6 +2,7 @@ package org.team340.robot;
 
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 
+import com.choreo.lib.Choreo;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import org.team340.lib.GRRDashboard;
@@ -115,7 +116,8 @@ public final class RobotContainer {
      * added to {@link GRRDashboard}.
      */
     private static void configAutos() {
-        GRRDashboard.addAutoCommand("Example", Autos.example());
+        GRRDashboard.addAutoCommand("Example", Choreo.getTrajectoryGroup("TestPath"), Autos.example());
+        GRRDashboard.addAutoCommand("Example 2", Choreo.getTrajectoryGroup("TestPath2"), Autos.example());
     }
 
     /**

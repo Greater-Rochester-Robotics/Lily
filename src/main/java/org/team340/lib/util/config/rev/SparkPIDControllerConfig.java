@@ -5,11 +5,33 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.SparkPIDController;
 import org.team340.lib.util.Math2;
+import org.team340.lib.util.config.PIDConfig;
+import org.team340.lib.util.config.PIDFConfig;
 
 /**
  * Config builder for {@link SparkPIDController}.
  */
-public class SparkPIDControllerConfig extends RevConfigBase<SparkPIDController> {
+public final class SparkPIDControllerConfig extends RevConfigBase<SparkPIDController> {
+
+    /**
+     * Creates an empty config.
+     */
+    public SparkPIDControllerConfig() {}
+
+    /**
+     * Creates a config that copies the config steps from the base provided.
+     * @param base The config to copy the steps from.
+     */
+    private SparkPIDControllerConfig(RevConfigBase<SparkPIDController> base) {
+        super(base);
+    }
+
+    /**
+     * Clones this config.
+     */
+    public SparkPIDControllerConfig clone() {
+        return new SparkPIDControllerConfig(this);
+    }
 
     /**
      * Applies the config.
@@ -333,6 +355,27 @@ public class SparkPIDControllerConfig extends RevConfigBase<SparkPIDController> 
 
     /**
      * Sets PIDF gains on the Spark Max.
+     * @param pidConfig The PID config object to apply.
+     */
+    public SparkPIDControllerConfig setPID(PIDConfig pidfConfig) {
+        setPID(pidfConfig.p(), pidfConfig.i(), pidfConfig.d());
+        setIZone(pidfConfig.iZone());
+        return this;
+    }
+
+    /**
+     * Sets PIDF gains on the Spark Max.
+     * @param pidConfig The PID config object to apply.
+     * @param slotId The gain schedule slot, the value is a number between {@code 0.0} and {@code 3}.
+     */
+    public SparkPIDControllerConfig setPID(PIDConfig pidfConfig, int slotId) {
+        setPID(pidfConfig.p(), pidfConfig.i(), pidfConfig.d(), slotId);
+        setIZone(pidfConfig.iZone(), slotId);
+        return this;
+    }
+
+    /**
+     * Sets PIDF gains on the Spark Max.
      * @param pGain The proportional gain value, must be positive.
      * @param iGain The integral gain value, must be positive.
      * @param dGain The derivative gain value, must be positive.
@@ -359,6 +402,27 @@ public class SparkPIDControllerConfig extends RevConfigBase<SparkPIDController> 
         setI(iGain, slotId);
         setD(dGain, slotId);
         setFF(ffGain, slotId);
+        return this;
+    }
+
+    /**
+     * Sets PIDF gains on the Spark Max.
+     * @param pidfConfig The PIDF config object to apply.
+     */
+    public SparkPIDControllerConfig setPIDF(PIDFConfig pidfConfig) {
+        setPIDF(pidfConfig.p(), pidfConfig.i(), pidfConfig.d(), pidfConfig.ff());
+        setIZone(pidfConfig.iZone());
+        return this;
+    }
+
+    /**
+     * Sets PIDF gains on the Spark Max.
+     * @param pidfConfig The PIDF config object to apply.
+     * @param slotId The gain schedule slot, the value is a number between {@code 0.0} and {@code 3}.
+     */
+    public SparkPIDControllerConfig setPIDF(PIDFConfig pidfConfig, int slotId) {
+        setPIDF(pidfConfig.p(), pidfConfig.i(), pidfConfig.d(), pidfConfig.ff(), slotId);
+        setIZone(pidfConfig.iZone(), slotId);
         return this;
     }
 }
