@@ -3,11 +3,9 @@ package org.team340.robot;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 
 import com.choreo.lib.Choreo;
-import edu.wpi.first.wpilibj.XboxController.Axis;
-import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import org.team340.lib.GRRDashboard;
 import org.team340.lib.controller.Controller2;
-import org.team340.lib.controller.JoystickProfiler;
 import org.team340.lib.util.Math2;
 import org.team340.lib.util.config.rev.RevConfigUtils;
 import org.team340.robot.Constants.ControllerConstants;
@@ -51,7 +49,7 @@ public final class RobotContainer {
         GRRDashboard.setSystemsCheck(SystemsCheck.command());
 
         // Print successful REV hardware initialization.
-        RevConfigUtils.printSuccess();
+        RevConfigUtils.printError();
 
         // Configure bindings and autos.
         configBindings();
@@ -79,36 +77,21 @@ public final class RobotContainer {
         // Right Bumper => Lock wheels
         driver.rightBumper().whileTrue(swerve.lock());
 
+        // A => SysId quasistatic forward
+        driver.a().whileTrue(swerve.sysIdQuasistatic(Direction.kForward));
+        // B => SysId dynamic forward
+        driver.b().whileTrue(swerve.sysIdDynamic(Direction.kForward));
+        // X => SysId dynamic reverse
+        driver.x().whileTrue(swerve.sysIdDynamic(Direction.kReverse));
+        // Y => SysId quasistatic reverse
+        driver.y().whileTrue(swerve.sysIdQuasistatic(Direction.kReverse));
+
         /**
          * Co-driver bindings.
          */
 
         // A => Do nothing
         coDriver.a().onTrue(none());
-
-        /**
-         * Joystick profiling.
-         */
-        driver
-            .start()
-            .and(driver.leftBumper())
-            .and(RobotModeTriggers.disabled())
-            .whileTrue(JoystickProfiler.run(driver.getHID(), Axis.kLeftX.value, Axis.kLeftY.value, 100));
-        driver
-            .start()
-            .and(driver.rightBumper())
-            .and(RobotModeTriggers.disabled())
-            .whileTrue(JoystickProfiler.run(driver.getHID(), Axis.kRightX.value, Axis.kRightY.value, 100));
-        coDriver
-            .start()
-            .and(coDriver.leftBumper())
-            .and(RobotModeTriggers.disabled())
-            .whileTrue(JoystickProfiler.run(coDriver.getHID(), Axis.kLeftX.value, Axis.kLeftY.value, 100));
-        coDriver
-            .start()
-            .and(coDriver.rightBumper())
-            .and(RobotModeTriggers.disabled())
-            .whileTrue(JoystickProfiler.run(coDriver.getHID(), Axis.kRightX.value, Axis.kRightY.value, 100));
     }
 
     /**

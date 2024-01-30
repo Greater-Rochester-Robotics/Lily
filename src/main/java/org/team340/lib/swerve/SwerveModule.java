@@ -194,16 +194,24 @@ class SwerveModule {
     }
 
     /**
-     * Gets first distance value in queue.
+     * Polls first distance value in queue.
      */
-    public double getDistanceQueue() {
-        return distanceQueue.poll();
+    public double pollDistanceQueue() {
+        try {
+            return distanceQueue.pop();
+        } catch (Exception e) {
+            return Double.MIN_VALUE;
+        }
     }
 
     /**
-     * Gets first heading value in queue.
+     * Polls first heading value in queue.
      */
-    public double getHeadingQueue() {
-        return headingQueue.poll();
+    public double pollHeadingQueue() {
+        try {
+            return headingQueue.pop();
+        } catch (Exception e) {
+            return Double.MIN_VALUE;
+        }
     }
 }

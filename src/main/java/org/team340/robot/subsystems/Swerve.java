@@ -6,6 +6,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import java.util.function.Supplier;
 import org.team340.lib.swerve.SwerveBase;
 import org.team340.lib.util.Math2;
@@ -52,7 +53,10 @@ public class Swerve extends SwerveBase {
      * @param fieldRelative If the robot should drive field relative.
      */
     public Command drive(Supplier<Double> x, Supplier<Double> y, Supplier<Double> rot, boolean fieldRelative) {
-        return commandBuilder("swerve.drive()").onExecute(() -> drive(x.get(), y.get(), rot.get(), fieldRelative));
+        return commandBuilder("swerve.drive()")
+            .onInitialize(() -> System.out.println("Swerve default command initialized"))
+            .onExecute(() -> drive(x.get(), y.get(), rot.get(), fieldRelative))
+            .onEnd(interrupted -> System.out.println("Swerve default command is interrupted: " + interrupted));
     }
 
     /**
@@ -87,5 +91,13 @@ public class Swerve extends SwerveBase {
      */
     public Command lock() {
         return commandBuilder("swerve.lock()").onExecute(this::lockWheels);
+    }
+
+    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+        return sysIdRoutine.quasistatic(direction);
+    }
+
+    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+        return sysIdRoutine.dynamic(direction);
     }
 }
