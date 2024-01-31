@@ -2,14 +2,12 @@ package org.team340.robot;
 
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 
-import com.choreo.lib.Choreo;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import org.team340.lib.GRRDashboard;
 import org.team340.lib.controller.Controller2;
 import org.team340.lib.util.Math2;
 import org.team340.lib.util.config.rev.RevConfigUtils;
 import org.team340.robot.Constants.ControllerConstants;
-import org.team340.robot.commands.Autos;
 import org.team340.robot.commands.SystemsCheck;
 import org.team340.robot.subsystems.Swerve;
 
@@ -48,7 +46,7 @@ public final class RobotContainer {
         // Set systems check command.
         GRRDashboard.setSystemsCheck(SystemsCheck.command());
 
-        // Print successful REV hardware initialization.
+        // Print errors from REV hardware initialization.
         RevConfigUtils.printError();
 
         // Configure bindings and autos.
@@ -98,10 +96,7 @@ public final class RobotContainer {
      * Autonomous commands should be declared here and
      * added to {@link GRRDashboard}.
      */
-    private static void configAutos() {
-        GRRDashboard.addAutoCommand("Example", Choreo.getTrajectoryGroup("TestPath"), Autos.example());
-        GRRDashboard.addAutoCommand("Example 2", Choreo.getTrajectoryGroup("TestPath2"), Autos.example());
-    }
+    private static void configAutos() {}
 
     /**
      * Gets the X axis drive speed from the driver's controller.

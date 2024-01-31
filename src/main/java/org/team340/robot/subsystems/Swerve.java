@@ -53,10 +53,7 @@ public class Swerve extends SwerveBase {
      * @param fieldRelative If the robot should drive field relative.
      */
     public Command drive(Supplier<Double> x, Supplier<Double> y, Supplier<Double> rot, boolean fieldRelative) {
-        return commandBuilder("swerve.drive()")
-            .onInitialize(() -> System.out.println("Swerve default command initialized"))
-            .onExecute(() -> drive(x.get(), y.get(), rot.get(), fieldRelative))
-            .onEnd(interrupted -> System.out.println("Swerve default command is interrupted: " + interrupted));
+        return commandBuilder("swerve.drive()").onExecute(() -> drive(x.get(), y.get(), rot.get(), fieldRelative));
     }
 
     /**
@@ -93,10 +90,18 @@ public class Swerve extends SwerveBase {
         return commandBuilder("swerve.lock()").onExecute(this::lockWheels);
     }
 
+    /**
+     * Runs a SysId quasistatic test.
+     * @param direction The direction to run the test in.
+     */
     public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
         return sysIdRoutine.quasistatic(direction);
     }
 
+    /**
+     * Runs a SysId dynamic test.
+     * @param direction The direction to run the test in.
+     */
     public Command sysIdDynamic(SysIdRoutine.Direction direction) {
         return sysIdRoutine.dynamic(direction);
     }
