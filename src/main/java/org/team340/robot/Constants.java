@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import org.team340.lib.controller.Controller2Config;
-import org.team340.lib.swerve.SwerveBase.SwerveMotorType;
 import org.team340.lib.swerve.config.SwerveConfig;
 import org.team340.lib.swerve.config.SwerveModuleConfig;
+import org.team340.lib.swerve.hardware.motors.SwerveMotor;
 import org.team340.lib.util.config.PIDConfig;
 
 /**
@@ -22,8 +22,8 @@ public final class Constants {
     public static final double TELEMETRY_PERIOD = 0.040;
     public static final double POWER_USAGE_PERIOD = 0.020;
     public static final double VOLTAGE = 12.0;
-    public static final double FIELD_LENGTH = 16.5417;
-    public static final double FIELD_WIDTH = 8.0136;
+    public static final double FIELD_LENGTH = 16.54175;
+    public static final double FIELD_WIDTH = 8.21055;
 
     /**
      * Driver and co-driver controller constants.
@@ -113,13 +113,14 @@ public final class Constants {
             .setMoveFF(0.0, 2.84, 0.0)
             .setTurnPID(0.75, 0.0, 16.0, 0.0)
             .setRampRate(0.03, 0.03)
-            .setPowerProperties(VOLTAGE, 40.0, 30.0)
+            .setMotorTypes(SwerveMotor.Type.SPARK_MAX_BRUSHLESS, SwerveMotor.Type.SPARK_MAX_BRUSHLESS)
+            .setMaxSpeeds(4.05, 7.12)
+            .setRatelimits(8.23, 30.35)
+            .setPowerProperties(VOLTAGE, 60.0, 30.0)
             .setMechanicalProperties(7.13, 13.71, 4.0)
-            .setSpeedConstraints(4.05, 7.12, 8.23, 30.35)
-            .setMotorTypes(SwerveMotorType.SPARK_MAX_BRUSHLESS, SwerveMotorType.SPARK_MAX_BRUSHLESS)
             .setDiscretizationLookahead(0.020)
-            .setOdometryPeriod(0.020)
-            .setStandardDeviations(0.1, 0.1, 0.1)
+            .setOdometryPeriod(0.005)
+            .setOdometryStd(0.1, 0.1, 0.1)
             .setSysIdConfig(new SysIdRoutine.Config())
             .setFieldSize(FIELD_LENGTH, FIELD_WIDTH)
             .addModule(FRONT_LEFT)
