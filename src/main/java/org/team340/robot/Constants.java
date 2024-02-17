@@ -1,5 +1,8 @@
 package org.team340.robot;
 
+import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Volts;
+
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.CalibrationTime;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
@@ -33,7 +36,7 @@ public final class Constants {
         public static final Controller2Config DRIVER = new Controller2Config()
             .setLabel("Driver")
             .setPort(0)
-            .setJoystickDeadband(0.1)
+            .setJoystickDeadband(0.15)
             .setJoystickThreshold(0.7)
             .setTriggerDeadband(0.1)
             .setTriggerThreshold(0.1)
@@ -51,7 +54,7 @@ public final class Constants {
             .setRightProfile("joystickprofiles/CoDriverRight.json");
 
         public static final double DRIVE_EXP = 1.0;
-        public static final double DRIVE_MULTIPLIER = 0.75;
+        public static final double DRIVE_MULTIPLIER = 0.95;
         public static final double DRIVE_MULTIPLIER_MODIFIED = 0.95;
 
         public static final double DRIVE_ROT_EXP = 2.0;
@@ -109,19 +112,19 @@ public final class Constants {
         public static final SwerveConfig CONFIG = new SwerveConfig()
             .useADIS16470(IMUAxis.kZ, IMUAxis.kX, IMUAxis.kY, Port.kOnboardCS0, CalibrationTime._4s)
             .setPeriod(PERIOD)
-            .setMovePID(0.001, 0.0, 0.0, 0.0)
-            .setMoveFF(0.0, 2.84, 0.0)
-            .setTurnPID(0.75, 0.0, 16.0, 0.0)
+            .setMovePID(0.0125, 0.001, 0.005, 0.075)
+            .setMoveFF(0.12229, 2.84820, 0.46966)
+            .setTurnPID(0.65, 0.001, 3.0, 0.01)
             .setRampRate(0.03, 0.03)
             .setMotorTypes(SwerveMotor.Type.SPARK_MAX_BRUSHLESS, SwerveMotor.Type.SPARK_MAX_BRUSHLESS)
-            .setMaxSpeeds(4.05, 7.12)
-            .setRatelimits(8.23, 30.35)
-            .setPowerProperties(VOLTAGE, 60.0, 30.0)
+            .setMaxSpeeds(4.2, 9.7)
+            .setRatelimits(10.2, 32.25)
+            .setPowerProperties(VOLTAGE, 100.0, 40.0)
             .setMechanicalProperties(7.13, 13.71, 4.0)
             .setDiscretizationLookahead(0.020)
-            .setOdometryPeriod(0.005)
+            .setOdometryPeriod(0.008)
             .setOdometryStd(0.1, 0.1, 0.1)
-            .setSysIdConfig(new SysIdRoutine.Config())
+            .setSysIdConfig(new SysIdRoutine.Config(Volts.of(1.0).per(Seconds.of(0.4)), Volts.of(7.0), Seconds.of(5.5)))
             .setFieldSize(FIELD_LENGTH, FIELD_WIDTH)
             .addModule(FRONT_LEFT)
             .addModule(BACK_LEFT)
@@ -129,6 +132,6 @@ public final class Constants {
             .addModule(FRONT_RIGHT);
 
         public static final PIDConfig ROT_PID = new PIDConfig(7.0, 0.0, 0.5, 0.0);
-        public static final Constraints ROT_CONSTRAINTS = new Constraints(6.0, 12.5);
+        public static final Constraints ROT_CONSTRAINTS = new Constraints(9.5, 28.5);
     }
 }

@@ -2,11 +2,11 @@ package org.team340.robot;
 
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import org.team340.lib.GRRDashboard;
 import org.team340.lib.controller.Controller2;
 import org.team340.lib.util.Math2;
-import org.team340.lib.util.config.rev.RevConfigUtils;
+import org.team340.lib.util.config.rev.RevConfigRegistry;
 import org.team340.robot.Constants.ControllerConstants;
 import org.team340.robot.commands.SystemsCheck;
 import org.team340.robot.subsystems.Swerve;
@@ -47,7 +47,7 @@ public final class RobotContainer {
         GRRDashboard.setSystemsCheck(SystemsCheck.command());
 
         // Print errors from REV hardware initialization.
-        RevConfigUtils.printError();
+        RevConfigRegistry.printError();
 
         // Configure bindings and autos.
         configBindings();
@@ -75,14 +75,10 @@ public final class RobotContainer {
         // Right Bumper => Lock wheels
         driver.rightBumper().whileTrue(swerve.lock());
 
-        // A => SysId quasistatic forward
-        driver.a().whileTrue(swerve.sysIdQuasistatic(Direction.kForward));
-        // B => SysId dynamic forward
-        driver.b().whileTrue(swerve.sysIdDynamic(Direction.kForward));
-        // X => SysId dynamic reverse
-        driver.x().whileTrue(swerve.sysIdDynamic(Direction.kReverse));
-        // Y => SysId quasistatic reverse
-        driver.y().whileTrue(swerve.sysIdQuasistatic(Direction.kReverse));
+        driver.a().whileTrue(swerve.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        driver.b().whileTrue(swerve.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        driver.x().whileTrue(swerve.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        driver.y().whileTrue(swerve.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
         /**
          * Co-driver bindings.
