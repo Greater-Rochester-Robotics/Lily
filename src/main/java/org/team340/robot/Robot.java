@@ -1,12 +1,18 @@
 package org.team340.robot;
 
+import static edu.wpi.first.wpilibj2.command.Commands.*;
+
+import edu.wpi.first.epilogue.Epilogue;
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import org.team340.lib.GRRDashboard;
-import org.team340.lib.util.config.rev.RevConfigRegistry;
+import org.team340.lib.controller.Controller;
+import org.team340.lib.dashboard.GRRDashboard;
+import org.team340.lib.util.Profiler;
+import org.team340.lib.util.rev.RevConfigRegistry;
+import org.team340.robot.subsystems.Swerve;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -14,29 +20,54 @@ import org.team340.lib.util.config.rev.RevConfigRegistry;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
+@Logged
 public final class Robot extends TimedRobot {
+
+    private final Controller driver;
+
+    private final Swerve swerve;
 
     public Robot() {
         super(Constants.PERIOD);
-    }
-
-    @Override
-    public void robotInit() {
-        LiveWindow.setEnabled(false);
-        enableLiveWindowInTest(false);
-        LiveWindow.disableAllTelemetry();
         DriverStation.silenceJoystickConnectionWarning(true);
 
-        DataLogManager.logNetworkTables(true);
-        GRRDashboard.initAsync(this, Constants.TELEMETRY_PERIOD, Constants.POWER_USAGE_PERIOD);
-        RevConfigRegistry.init(this);
-        RobotContainer.init();
+        // Start logging
+        DataLogManager.start();
+        DriverStation.startDataLog(DataLogManager.getLog());
+        Epilogue.configure(config -> {
+            config.root = "Telemetry";
+        });
+
+        // Create controllers
+        driver = new Controller(Constants.DRIVER);
+
+        // Initialize Subsystems
+        swerve = new Swerve();
+
+        // Finish configuration of REV hardware
+        RevConfigRegistry.burnFlashAll();
+
+        // Configure Autos
+        GRRDashboard.addAuto("Example", none());
+
+        // Configure Default Commands
+        swerve.setDefaultCommand(swerve.drive(driver::getLeftX, driver::getLeftY, driver::getTriggerDifference));
+
+        // Driver POV Left => Tare rotation
+        driver.povLeft().onTrue(swerve.tareRotation());
     }
 
     @Override
     public void robotPeriodic() {
-        CommandScheduler.getInstance().run();
+        Profiler.start("RobotPeriodic");
+        Profiler.run("CommandScheduler", () -> CommandScheduler.getInstance().run());
+        Profiler.run("Epilogue", () -> Epilogue.update(this));
+        Profiler.run("GRRDashboard", GRRDashboard::update);
+        Profiler.end();
     }
+
+    @Override
+    public void simulationPeriodic() {}
 
     @Override
     public void disabledInit() {}
@@ -45,18 +76,25 @@ public final class Robot extends TimedRobot {
     public void disabledPeriodic() {}
 
     @Override
-    public void autonomousInit() {
-        GRRDashboard.getAutoCommand().schedule();
-    }
+    public void disabledExit() {}
+
+    @Override
+    public void autonomousInit() {}
 
     @Override
     public void autonomousPeriodic() {}
+
+    @Override
+    public void autonomousExit() {}
 
     @Override
     public void teleopInit() {}
 
     @Override
     public void teleopPeriodic() {}
+
+    @Override
+    public void teleopExit() {}
 
     @Override
     public void testInit() {
@@ -67,8 +105,5 @@ public final class Robot extends TimedRobot {
     public void testPeriodic() {}
 
     @Override
-    public void simulationInit() {}
-
-    @Override
-    public void simulationPeriodic() {}
+    public void testExit() {}
 }
