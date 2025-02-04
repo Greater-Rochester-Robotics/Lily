@@ -27,7 +27,7 @@ public class Swerve extends GRRSubsystem {
         .setLocation(0.27305, 0.27305)
         .setMoveMotor(SwerveMotors.sparkMax(RobotMap.FL_MOVE, MotorType.kBrushless, true))
         .setTurnMotor(SwerveMotors.sparkMax(RobotMap.FL_TURN, MotorType.kBrushless, true))
-        .setEncoder(SwerveEncoders.sparkMaxEncoder(0.677, false));
+        .setEncoder(SwerveEncoders.sparkMaxEncoder(0.856, false));
 
     private static final SwerveModuleConfig FRONT_RIGHT = new SwerveModuleConfig()
         .setName("frontRight")
@@ -41,7 +41,7 @@ public class Swerve extends GRRSubsystem {
         .setLocation(-0.27305, 0.27305)
         .setMoveMotor(SwerveMotors.sparkMax(RobotMap.BL_MOVE, MotorType.kBrushless, true))
         .setTurnMotor(SwerveMotors.sparkMax(RobotMap.BL_TURN, MotorType.kBrushless, true))
-        .setEncoder(SwerveEncoders.sparkMaxEncoder(0.572, false));
+        .setEncoder(SwerveEncoders.sparkMaxEncoder(0.802, false));
 
     private static final SwerveModuleConfig BACK_RIGHT = new SwerveModuleConfig()
         .setName("backRight")
